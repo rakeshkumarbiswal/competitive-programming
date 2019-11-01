@@ -1,0 +1,60 @@
+struct man
+{
+    int number;
+    int brived;
+};
+// Complete the minimumBribes function below
+void swap(man *arr,int pos1,int pos2)
+{
+    man temp=arr[pos1];
+    arr[pos1]=arr[pos2];
+    arr[pos2]=temp;
+}
+int find(man *arr,int i,int key,int size)
+{
+    for(i;i<size;i++)
+    {
+        if(arr[i].number==key)
+        return i;
+    }
+    return -1;
+}
+void minimumBribes(vector<int> q) 
+{
+    int i,tr=0;
+    int count=0;
+    man arr[q.size()];
+    for(i=0;i<q.size();i++)
+    {
+        arr[i].number=i+1;
+        arr[i].brived=0;
+    }
+    for(i=0;i<q.size();i++)
+    {
+        if(q[i]==arr[i].number)
+        continue;
+        else
+        {
+            int pos=find(arr,i,q[i],q.size());
+            while(pos!=i)
+            {
+                arr[pos].brived++;
+                if(arr[pos].brived>2)
+                {
+                    tr=1;
+                    //cout<<"*"<<arr[pos].number<<"*";
+                    break;
+                }
+                swap(arr,pos,pos-1);
+                count++;
+                pos--;
+            }
+            if(tr==1)
+            break;
+        }
+    }
+    if(tr==0)
+    cout<<count<<endl;
+    else
+    cout<<"Too chaotic"<<endl;
+}
